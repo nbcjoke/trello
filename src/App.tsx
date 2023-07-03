@@ -1,5 +1,13 @@
+import { Header } from "./components/header/header";
+import { Router } from "./routes/routes";
+
 import "./App.css";
 
 export const App = () => {
-  return <div>hello</div>;
+  return (
+    <>
+      <Header />
+      <Router />
+    </>
+  );
 };

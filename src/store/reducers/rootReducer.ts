@@ -1,3 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-export const rootReducer = combineReducers({});
+import boardReducer from "./boardReducer";
+
+export const rootReducer = combineReducers({
+  board: boardReducer,
+});
