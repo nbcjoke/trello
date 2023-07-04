@@ -1,9 +1,10 @@
 import { FunctionComponent, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 
+import { Board } from "../../types/board";
+
 import { boardItem, iconWrapper, iconButton, icon } from "./styles.css";
 import deleteIcon from "../../assets/delete.svg";
-import { Board } from "../../types/board";
 
 interface BoardCardProps {
   board: Board;

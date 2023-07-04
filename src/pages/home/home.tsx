@@ -21,20 +21,22 @@ export const Home = () => {
   const { boards } = useAppSelector((state) => state.board);
   const dispatch = useAppDispatch();
 
-  const { createBoardAction, deleteBoard } = boardSlice.actions;
+  const { addBoard, deleteBoard } = boardSlice.actions;
 
   const createBoard = (name: string) => {
+    if (!name) return;
     const board = {
       id: uuid(),
       title: name,
       lists: [],
     };
-    dispatch(createBoardAction(board));
+    dispatch(addBoard(board));
     setName("");
   };
 
   const removeBoard = (e: MouseEvent<HTMLButtonElement>, id: string) => {
     e.stopPropagation();
+    e.preventDefault();
     dispatch(deleteBoard(id));
   };
 
@@ -58,13 +60,21 @@ export const Home = () => {
         </div>
       </div>
       <h2 className={boardTitle}>Boards</h2>
-      <div className={boardContainer}>
-        {boards.map((board) => {
-          return (
-            <BoardCard board={board} removeBoard={removeBoard} key={board.id} />
-          );
-        })}
-      </div>
+      {boards.length ? (
+        <div className={boardContainer}>
+          {boards.map((board) => {
+            return (
+              <BoardCard
+                board={board}
+                removeBoard={removeBoard}
+                key={board.id}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <h2 className={boardTitle}>You don't have any boards yet</h2>
+      )}
     </div>
   );
 };
