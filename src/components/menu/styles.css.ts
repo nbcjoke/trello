@@ -4,6 +4,8 @@ export const menuContainer = style({
   position: "absolute",
   right: 0,
   top: "70px",
+  borderLeft: "1px solid #999595",
+  bottom: 0,
   width: 0,
   padding: "20px 10px",
   background: "#edeaea",

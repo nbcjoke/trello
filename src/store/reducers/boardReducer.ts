@@ -8,25 +8,40 @@ import { Action } from "../../types/action";
 
 const boards = [
   {
-    id: "10",
-    title: "first",
+    id: "1",
+    title: "Jira clone",
     lists: [
       {
-        id: "11",
-        title: "first list",
+        id: "1",
+        title: "To do",
         tasks: [
-          { id: "1", description: "11111" },
-          { id: "2", description: "22222" },
-          { id: "3", description: "33333" },
+          { id: "1", description: "add button" },
+          { id: "2", description: "change color" },
+          { id: "3", description: "change styles" },
         ],
       },
       {
-        id: "12",
-        title: "second list",
+        id: "2",
+        title: "In progress",
         tasks: [
-          { id: "4", description: "44444" },
-          { id: "5", description: "55555" },
-          { id: "6", description: "66666" },
+          { id: "1", description: "add button" },
+          { id: "2", description: "change color" },
+          { id: "3", description: "change styles" },
+        ],
+      },
+      {
+        id: "3",
+        title: "Done",
+        tasks: [
+          { id: "1", description: "add button" },
+          { id: "2", description: "change color" },
+          { id: "3", description: "change styles" },
+          { id: "4", description: "add button" },
+          { id: "5", description: "change color" },
+          { id: "6", description: "change styles" },
+          { id: "7", description: "add button" },
+          { id: "8", description: "change color" },
+          { id: "9", description: "change styles" },
         ],
       },
     ],
@@ -81,7 +96,6 @@ export const boardSlice = createSlice({
       }
     },
     addBoard(state, { payload }: PayloadAction<Board>) {
-      console.log(payload);
       state.boards.push(payload);
 
       state.actions.push({

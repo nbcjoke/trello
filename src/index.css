@@ -1,6 +1,17 @@
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   background: #2f4d87;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 a {

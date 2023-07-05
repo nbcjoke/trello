@@ -1,6 +1,7 @@
 import { useState, MouseEvent } from "react";
 import { v4 as uuid } from "uuid";
 
+import { BoardCard } from "../../components/boardCard/boardCard";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { boardSlice } from "../../store/reducers/boardReducer";
@@ -14,7 +15,6 @@ import {
   boardContainer,
   boardTitle,
 } from "./styles.css";
-import { BoardCard } from "../../components/boardCard/boardCard";
 
 export const Home = () => {
   const [name, setName] = useState<string>("");

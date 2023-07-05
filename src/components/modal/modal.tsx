@@ -1,5 +1,9 @@
 import { useState, FunctionComponent } from "react";
 
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { boardSlice } from "../../store/reducers/boardReducer";
+import { Task } from "../../types/task";
+
 import {
   modalContainer,
   input,
@@ -10,13 +14,9 @@ import {
   closeButton,
   modalHeader,
 } from "./styles.css";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { boardSlice } from "../../store/reducers/boardReducer";
-import { Task } from "../../types/task";
-
 interface ModalProps {
   selectedTask: Task;
-  setSelectedTask: (arg: any | undefined) => void;
+  setSelectedTask: (arg?: Task | undefined) => void;
 }
 
 export const Modal: FunctionComponent<ModalProps> = ({

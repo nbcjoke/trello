@@ -1,14 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { cloneDeep } from "lodash";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "react-beautiful-dnd";
-import { v4 as uuid } from "uuid";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { Board as BoardType } from "../../types/board";
 import { ListComponent } from "../../components/list/list";
@@ -17,25 +11,13 @@ import {
   listContainer,
   boardTitleContainer,
   boardEditButton,
-  listWrapper,
-  titleWrapper,
-  title,
-  buttonsWrapper,
-  taskCard,
-  taskWrapper,
-  addTaskWrapper,
-  addTaskButton,
   icon,
-  taskCardDelete,
   container,
   listAddButton,
   saveButton,
   input,
-  removeButton,
-  editListTitleClass,
 } from "./styles.css";
 import addTaskIcon from "../../assets/add.svg";
-import deleteIcon from "../../assets/delete.svg";
 import editIcon from "../../assets/change.svg";
 import { Popup } from "../../components/popup/popup";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -49,27 +31,14 @@ export const Board = () => {
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [editingBoardTitle, setEditingBoardTitle] = useState<boolean>(false);
   const [boardTitle, setBoardTitle] = useState<string | undefined>();
-  const [addingTask, setAddingTask] = useState<{ [key: string]: boolean }>({});
-  const [editingList, setEditingList] = useState<{ [key: string]: boolean }>(
-    {}
-  );
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [listTitle, setListTitle] = useState<string>("");
-  const [taskDescription, setTaskDescription] = useState<string>("");
   const [selectedTask, setSelectedTask] = useState<Task | undefined>();
+
   const { id } = useParams();
   const { boards } = useAppSelector((state) => state.board);
   const dispatch = useAppDispatch();
 
-  const {
-    editBoard,
-    setSelectedBoardId,
-    deleteList,
-    addTask,
-    deleteTask,
-    reorderBoard,
-    editList,
-  } = boardSlice.actions;
+  const { editBoard, setSelectedBoardId, reorderBoard } = boardSlice.actions;
 
   useEffect(() => {
     const result = boards.find((board) => board.id === id);
@@ -95,67 +64,13 @@ export const Board = () => {
     setEditingBoardTitle(false);
   };
 
-  const removeList = (id: string) => {
-    dispatch(deleteList(id));
-  };
-
-  const editListTitle = (id: string) => {
-    if (!listTitle) return;
-    dispatch(editList({ id, title: listTitle }));
-    setEditingList({ [id]: false });
-  };
-
-  const createTask = (id: string) => {
-    if (!taskDescription) return;
-    const task = {
-      id: uuid(),
-      description: taskDescription,
-    };
-    dispatch(addTask({ id, task }));
-    setAddingTask({ [id]: false });
-    setTaskDescription("");
-  };
-
-  const removeTask = (
-    e: MouseEvent<HTMLButtonElement>,
-    listId: string,
-    taskId: string
-  ) => {
-    e.stopPropagation();
-    dispatch(deleteTask({ listId, taskId }));
-  };
-
   const onDragEnd = (result: DropResult) => {
     dispatch(reorderBoard(result));
-  };
-
-  const startAddingTask = (id: string) => {
-    setAddingTask({ [id]: true });
-  };
-
-  // const changeStateModal = (id: string) => {
-  //   setOpenModal({ [id]: true });
-  // };
-
-  const startEditingList = (id: string, title: string) => {
-    setEditingList({ [id]: true });
-    setListTitle(title);
   };
 
   const changeStateMenu = () => {
     setOpenMenu(!openMenu);
   };
-
-  const selectTask = (listId: string, taskId: string) => {
-    const list = board?.lists.find((list) => list.id === listId);
-    const task = list?.tasks.find((task) => task.id === taskId);
-    if (!task) {
-      return;
-    }
-    setSelectedTask({ ...task, listId: list?.id });
-  };
-
-  console.log(selectedTask);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -194,147 +109,18 @@ export const Board = () => {
         )}
       </div>
       <div className={container}>
-        <div className={listContainer}>
+        <div
+          className={listContainer}
+          style={openMenu ? { marginRight: "370px" } : {}}
+        >
           {board?.lists?.map((list) => {
             return (
-              <Droppable droppableId={list.id}>
-                {(provided) => (
-                  <>
-                    {/* <ListComponent
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    list={list}
-                  /> */}
-
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className={listWrapper}
-                    >
-                      <div key={list.id}>
-                        <div className={titleWrapper}>
-                          {editingList[list.id] ? (
-                            <div className={editListTitleClass}>
-                              <input
-                                className={input}
-                                type="text"
-                                name="boardTitle"
-                                placeholder="Edit list title"
-                                value={listTitle}
-                                onChange={(e) => setListTitle(e.target.value)}
-                              />
-                              <button
-                                className={saveButton}
-                                onClick={() => editListTitle(list.id)}
-                              >
-                                Save
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <h2 className={title}>{list.title}</h2>
-                              <div className={buttonsWrapper}>
-                                <div
-                                  onClick={() =>
-                                    startEditingList(list.id, list.title)
-                                  }
-                                >
-                                  <img
-                                    className={icon}
-                                    src={editIcon}
-                                    alt="edit icon"
-                                  />
-                                </div>
-                                <div onClick={() => removeList(list.id)}>
-                                  <img
-                                    className={icon}
-                                    src={deleteIcon}
-                                    alt="delete icon"
-                                  />
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <div className={taskWrapper}>
-                          {list.tasks?.map((task, index) => {
-                            return (
-                              <>
-                                <Draggable
-                                  key={task.id}
-                                  draggableId={task.id}
-                                  index={index}
-                                >
-                                  {(provided) => (
-                                    <div
-                                      onClick={() =>
-                                        selectTask(list.id, task.id)
-                                      }
-                                      className={taskCard}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      ref={provided.innerRef}
-                                    >
-                                      <div>{task.description}</div>
-                                      <button
-                                        className={removeButton}
-                                        onClick={(e) =>
-                                          removeTask(e, list.id, task.id)
-                                        }
-                                      >
-                                        <img
-                                          src={deleteIcon}
-                                          alt="delete icon"
-                                          className={icon}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </Draggable>
-                              </>
-                            );
-                          })}
-                          <div className={addTaskWrapper}>
-                            {addingTask[list.id] ? (
-                              <>
-                                <input
-                                  className={input}
-                                  type="text"
-                                  name="boardTitle"
-                                  placeholder="Add task"
-                                  value={taskDescription}
-                                  onChange={(e) =>
-                                    setTaskDescription(e.target.value)
-                                  }
-                                />
-                                <button
-                                  className={saveButton}
-                                  onClick={() => createTask(list.id)}
-                                >
-                                  Save
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                className={addTaskButton}
-                                onClick={() => startAddingTask(list.id)}
-                              >
-                                <img
-                                  className={icon}
-                                  src={addTaskIcon}
-                                  alt="add task"
-                                />{" "}
-                                Add a card
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      {provided.placeholder}
-                    </div>
-                  </>
-                )}
-              </Droppable>
+              <ListComponent
+                board={board}
+                list={list}
+                key={list.id}
+                setSelectedTask={setSelectedTask}
+              />
             );
           })}
           {openPopup ? (

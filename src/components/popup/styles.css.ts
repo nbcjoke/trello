@@ -1,9 +1,9 @@
 import { style } from "@vanilla-extract/css";
 
 export const popupContainer = style({
-  maxWidth: "300px",
-  height: "100%",
-  flex: 1,
+  width: "320px",
+  height: "fit-content",
+  flex: "0 0 auto",
   padding: "10px",
   boxSizing: "border-box",
   backgroundColor: "#d5d2d2",
