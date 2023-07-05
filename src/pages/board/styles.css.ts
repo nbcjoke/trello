@@ -29,6 +29,7 @@ export const listWrapper = style({
 });
 
 export const titleWrapper = style({
+  height: "50px",
   display: "flex",
 });
 
@@ -41,6 +42,14 @@ export const buttonsWrapper = style({
   marginLeft: "auto",
   gap: "5px",
   cursor: "pointer",
+});
+
+export const editListTitleClass = style({
+  marginBottom: "10px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "7px",
 });
 
 export const icon = style({
@@ -66,6 +75,9 @@ export const taskCard = style({
 
 export const addTaskWrapper = style({
   marginRight: "auto",
+  height: "40px",
+  display: "flex",
+  gap: "7px",
 });
 
 export const addTaskButton = style({
@@ -82,8 +94,15 @@ export const addTaskButton = style({
   },
 });
 
+export const removeButton = style({
+  padding: 0,
+  marginTop: "5px",
+  border: "none",
+  background: "transparent",
+});
+
 export const input = style({
-  padding: "12px",
+  padding: "10px 12px",
   border: "1px solid #fff",
   borderRadius: "4px",
   backgroundColor: "#fff",
@@ -99,15 +118,21 @@ export const input = style({
 
 export const saveButton = style({
   padding: "12px 24px",
+  border: "1px solid #9fb2ff",
   backgroundColor: "#9fb2ff",
-  border: "none",
   borderRadius: "4px",
   cursor: "pointer",
+  ":hover": {
+    border: "1px solid #55564f",
+  },
 });
 
 export const taskCardDelete = style({
+  width: "24px",
   marginTop: "5px",
 });
+
+export const container = style([]);
 
 export const listAddButton = style({
   padding: "12px 24px",
@@ -118,10 +143,11 @@ export const listAddButton = style({
   height: "50px",
   justifyContent: "center",
   alignItems: "center",
-  border: "none",
+  border: "1px solid #9fb2ff",
   borderRadius: "4px",
   backgroundColor: "#9fb2ff",
   ":hover": {
     cursor: "pointer",
+    border: "1px solid #55564f",
   },
 });

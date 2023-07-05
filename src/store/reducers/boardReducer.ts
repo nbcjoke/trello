@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { DropResult } from "react-beautiful-dnd";
+import { v4 as uuid } from "uuid";
 
 import { Board } from "../../types/board";
 import { List } from "../../types/list";
-import { DropResult } from "react-beautiful-dnd";
+import { Action } from "../../types/action";
 
 const boards = [
   {
@@ -29,34 +31,18 @@ const boards = [
       },
     ],
   },
-  //   {
-  //     id: "2",
-  //     title: "second",
-  //     lists: [
-  //       {
-  //         id: "1",
-  //         title: "first list",
-  //         tasks: [{ id: "1", description: "first task" }],
-  //       },
-  //       {
-  //         id: "2",
-  //         title: "second list",
-  //         tasks: [{ id: "2", description: "second task" }],
-  //       },
-  //     ],
-  //   },
 ];
 
 interface State {
   boards: Board[];
-  errors: string;
+  actions: Action[];
   selectedBoardId?: string;
 }
 
 const initialState: State = {
   boards: boards,
   selectedBoardId: "",
-  errors: "",
+  actions: [],
 };
 
 export const boardSlice = createSlice({
@@ -97,17 +83,29 @@ export const boardSlice = createSlice({
     addBoard(state, { payload }: PayloadAction<Board>) {
       console.log(payload);
       state.boards.push(payload);
+
+      state.actions.push({
+        id: uuid(),
+        text: `Board ${payload.title} added`,
+      });
     },
     deleteBoard(state, { payload }: PayloadAction<string>) {
       state.boards.splice(
         state.boards.findIndex((item) => item.id === payload),
         1
       );
+
+      state.actions.push({ id: uuid(), text: `Board deleted` });
     },
     editBoard(state, { payload }) {
       const board = state.boards.find((board) => board.id === payload.id);
       if (!board) return;
       board.title = payload.boardTitle;
+
+      state.actions.push({
+        id: uuid(),
+        text: `Board ${board.title} was updated to ${payload.boardTitle}`,
+      });
     },
     addList(state, { payload }: PayloadAction<List>) {
       const board = state.boards.find(
@@ -115,6 +113,11 @@ export const boardSlice = createSlice({
       );
       if (!board) return;
       board.lists.push(payload);
+
+      state.actions.push({
+        id: uuid(),
+        text: `List ${payload.title} was added to board ${board.title}`,
+      });
     },
     deleteList(state, { payload }: PayloadAction<string>) {
       const board = state.boards.find(
@@ -124,6 +127,11 @@ export const boardSlice = createSlice({
         board.lists.findIndex((list) => list.id === payload),
         1
       );
+
+      state.actions.push({
+        id: uuid(),
+        text: `List was deleted from ${board?.title}`,
+      });
     },
     editList(state, { payload }) {
       const board = state.boards.find(
@@ -133,6 +141,11 @@ export const boardSlice = createSlice({
       const list = board.lists.find((list) => list.id === payload.id);
       if (!list) return;
       list.title = payload.title;
+
+      state.actions.push({
+        id: uuid(),
+        text: `List ${list.title} was updated to ${payload.title}`,
+      });
     },
     addTask(state, { payload }) {
       const board = state.boards.find(
@@ -140,6 +153,11 @@ export const boardSlice = createSlice({
       );
       const list = board?.lists.find((list) => list.id === payload.id);
       list?.tasks.push(payload.task);
+
+      state.actions.push({
+        id: uuid(),
+        text: `Task ${payload.task.description} was added to board ${board?.title} and list ${list?.title}`,
+      });
     },
 
     deleteTask(state, { payload }) {
@@ -151,6 +169,11 @@ export const boardSlice = createSlice({
         list.tasks.findIndex((task) => task.id === payload.taskId),
         1
       );
+
+      state.actions.push({
+        id: uuid(),
+        text: `Task was deleted from board ${board?.title} and list ${list?.title}`,
+      });
     },
     editTask(state, { payload }) {
       const board = state.boards.find(
@@ -162,6 +185,11 @@ export const boardSlice = createSlice({
       const task = list.tasks.find((task) => task.id === payload.taskId);
       if (!task) return;
       task.description = payload.description;
+
+      state.actions.push({
+        id: uuid(),
+        text: `Task ${task.description} was updated to ${payload.description}`,
+      });
     },
   },
 });
