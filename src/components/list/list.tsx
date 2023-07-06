@@ -78,15 +78,15 @@ export const ListComponent: FunctionComponent<ListProps> = ({
   };
 
   return (
-    <Droppable droppableId={list.id}>
-      {(provided) => (
-        <>
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            className={listWrapper}
-          >
-            <div key={list.id}>
+    <>
+      <Droppable droppableId={list.id}>
+        {(provided) => (
+          <>
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className={listWrapper}
+            >
               <div className={titleWrapper}>
                 {editingList[list.id] ? (
                   <div className={editListTitleClass}>
@@ -125,53 +125,55 @@ export const ListComponent: FunctionComponent<ListProps> = ({
                   </>
                 )}
               </div>
-              <div className={taskWrapper}>
-                {list.tasks?.map((task, index) => {
-                  return (
-                    <TaskComponent
-                      key={task.id}
-                      board={board}
-                      list={list}
-                      task={task}
-                      index={index}
-                      setSelectedTask={setSelectedTask}
-                    />
-                  );
-                })}
-                <div className={addTaskWrapper}>
-                  {addingTask[list.id] ? (
-                    <>
-                      <input
-                        className={input}
-                        type="text"
-                        name="boardTitle"
-                        placeholder="Add task"
-                        value={taskDescription}
-                        onChange={(e) => setTaskDescription(e.target.value)}
+              <div key={list.id}>
+                <div className={taskWrapper}>
+                  {list.tasks?.map((task, index) => {
+                    return (
+                      <TaskComponent
+                        key={task.id}
+                        board={board}
+                        list={list}
+                        task={task}
+                        index={index}
+                        setSelectedTask={setSelectedTask}
                       />
-                      <button
-                        className={saveButton}
-                        onClick={() => createTask(list.id)}
-                      >
-                        Save
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      className={addTaskButton}
-                      onClick={() => startAddingTask(list.id)}
-                    >
-                      <img className={icon} src={addTaskIcon} alt="add task" />{" "}
-                      Add a card
-                    </button>
-                  )}
+                    );
+                  })}
                 </div>
               </div>
+              {provided.placeholder}
+              <div className={addTaskWrapper}>
+                {addingTask[list.id] ? (
+                  <>
+                    <input
+                      className={input}
+                      type="text"
+                      name="boardTitle"
+                      placeholder="Add task"
+                      value={taskDescription}
+                      onChange={(e) => setTaskDescription(e.target.value)}
+                    />
+                    <button
+                      className={saveButton}
+                      onClick={() => createTask(list.id)}
+                    >
+                      Save
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className={addTaskButton}
+                    onClick={() => startAddingTask(list.id)}
+                  >
+                    <img className={icon} src={addTaskIcon} alt="add task" />{" "}
+                    Add a card
+                  </button>
+                )}
+              </div>
             </div>
-            {provided.placeholder}
-          </div>
-        </>
-      )}
-    </Droppable>
+          </>
+        )}
+      </Droppable>
+    </>
   );
 };

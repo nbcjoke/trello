@@ -1,6 +1,7 @@
 import { style } from "@vanilla-extract/css";
 
 export const listWrapper = style({
+  position: "relative",
   overflow: "auto",
   height: "fit-content",
   maxHeight: "100%",
@@ -10,6 +11,21 @@ export const listWrapper = style({
   padding: "10px",
   background: "#d5d2d2",
   borderRadius: "4px",
+  "::-webkit-scrollbar": {
+    position: "fixed",
+    top: 0,
+    width: "8px",
+  },
+  "::-webkit-scrollbar-track": {
+    boxShadow: "inset 0 0 6px rgba(0, 0, 0, 0.3)",
+  },
+  "::-webkit-scrollbar-thumb": {
+    backgroundColor: "darkgrey",
+    outline: "1px solid slategrey",
+  },
+  "::-webkit-scrollbar-button": {
+    display: "none",
+  },
 });
 
 export const titleWrapper = style({
@@ -37,7 +53,7 @@ export const taskWrapper = style({
 });
 
 export const addTaskWrapper = style({
-  marginRight: "auto",
+  marginTop: "10px",
   height: "40px",
   display: "flex",
   gap: "7px",

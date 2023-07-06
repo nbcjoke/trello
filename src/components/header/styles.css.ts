@@ -5,7 +5,8 @@ export const header = style({
   boxSizing: "border-box",
   height: "70px",
   padding: "10px 70px",
-  background: "#678dd6",
+  background: "#304876",
+  borderBottom: "1px solid #575757",
   justifyContent: "center",
   alignItems: "center",
 });

@@ -10,6 +10,7 @@ export const menuContainer = style({
   padding: "20px 10px",
   background: "#edeaea",
   zIndex: 1,
+  overflow: "auto",
 });
 
 export const menuHeader = style({
@@ -54,7 +55,7 @@ export const activityTitle = style({
 export const userLogContainer = style({
   display: "flex",
   flexDirection: "column",
-  gap: "5px",
+  gap: "10px",
 });
 
 export const userLogText = style({

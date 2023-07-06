@@ -18,4 +18,9 @@ export const taskCard = style({
   padding: "10px",
   background: "#fff",
   borderRadius: "4px",
+  border: "1px solid #fff",
+  transition: "0.3s",
+  ":hover": {
+    border: "1px solid #a39e9e",
+  },
 });

@@ -46,13 +46,14 @@ export const TaskComponent: FunctionComponent<TaskProps> = ({
 
   return (
     <Draggable key={task.id} draggableId={task.id} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
           onClick={() => selectTask(list.id, task.id)}
           className={taskCard}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          data-isdragging={snapshot.isDragging}
         >
           <div>{task.description}</div>
           <button
