@@ -4,6 +4,7 @@ export const listContainer = style({
   padding: "20px",
   display: "flex",
   gap: "10px",
+  alignItems: "flex-start",
   overflowX: "auto",
   overflowY: "hidden",
   userSelect: "none",

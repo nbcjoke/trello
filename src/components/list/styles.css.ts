@@ -1,9 +1,10 @@
 import { style } from "@vanilla-extract/css";
 
 export const listWrapper = style({
+  display: "flex",
+  flexDirection: "column",
   position: "relative",
-  overflow: "auto",
-  height: "fit-content",
+  overflow: "hidden",
   maxHeight: "100%",
   width: "320px",
   flex: "0 0 auto",
@@ -11,6 +12,21 @@ export const listWrapper = style({
   padding: "10px",
   background: "#d5d2d2",
   borderRadius: "4px",
+});
+
+export const titleWrapper = style({
+  height: "50px",
+  display: "flex",
+});
+
+export const title = style({
+  margin: "0 0 10px",
+});
+
+export const listContainer = style({
+  flex: 1,
+  overflow: "hidden",
+  overflowY: "auto",
   "::-webkit-scrollbar": {
     position: "fixed",
     top: 0,
@@ -26,15 +42,6 @@ export const listWrapper = style({
   "::-webkit-scrollbar-button": {
     display: "none",
   },
-});
-
-export const titleWrapper = style({
-  height: "50px",
-  display: "flex",
-});
-
-export const title = style({
-  margin: "0 0 10px",
 });
 
 export const buttonsWrapper = style({
